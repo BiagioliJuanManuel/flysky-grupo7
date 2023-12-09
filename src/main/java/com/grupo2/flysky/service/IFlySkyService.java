@@ -1,15 +1,18 @@
 package com.grupo2.flysky.service;
 
-import com.grupo2.flysky.dto.ResponseDto;
+import com.grupo2.flysky.dto.responseDto.FlightDto;
+import com.grupo2.flysky.dto.responseDto.ResponseDto;
 
-public interface FlySkyInterfaceService {
+import java.util.List;
+
+public interface IFlySkyService {
 
     /*
      *  ResponseDto no seria el objeto final de retorno.
      *
      */
 
-    ResponseDto findAllFlights(); // Buscar vuelos
+    List<FlightDto> findAllFlights(); // Buscar vuelos
 
     ResponseDto buyTicket(Long idFlight); // Comprar o Reservar un Boleto con el numero de Vuelo
 

@@ -1,14 +1,14 @@
 package com.grupo2.flysky.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Setter
-@Getter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Flight {
     @Id
@@ -33,7 +33,7 @@ public class Flight {
     @Column(nullable = false)
     private String destination;
 
-    @ManyToOne(targetEntity = Client.class)
-    private List<Client> passengers;
+    @OneToMany(mappedBy = "flight")
+    private List<Ticket> passengers;
 
 }

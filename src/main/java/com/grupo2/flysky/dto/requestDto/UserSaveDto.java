@@ -1,4 +1,4 @@
-package com.grupo2.flysky.dto;
+package com.grupo2.flysky.dto.requestDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,8 +9,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class UserDto {
-    private Long id;
+public class UserSaveDto {
     private String userName;
     private String password;
     private String email;

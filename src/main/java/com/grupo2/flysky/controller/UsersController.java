@@ -1,8 +1,8 @@
 package com.grupo2.flysky.controller;
 
-import com.grupo2.flysky.dto.UserSaveDto;
+import com.grupo2.flysky.dto.requestDto.UserSaveDto;
 import com.grupo2.flysky.service.UserService;
-import com.grupo2.flysky.service.UserServiceInterface;
+import com.grupo2.flysky.service.IUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user")
 public class UsersController {
 
-    private UserServiceInterface service;
+    private IUserService service;
 
     public UsersController(UserService service){
         this.service = service;

@@ -1,12 +1,12 @@
 package com.grupo2.flysky.service;
 
-import com.grupo2.flysky.dto.ResponseDto;
-import com.grupo2.flysky.dto.ResponseUserDto;
-import com.grupo2.flysky.dto.UserSaveDto;
+import com.grupo2.flysky.dto.responseDto.ResponseDto;
+import com.grupo2.flysky.dto.responseDto.ResponseUserDto;
+import com.grupo2.flysky.dto.requestDto.UserSaveDto;
 
 import java.util.List;
 
-public interface UserServiceInterface {
+public interface IUserService {
 
     ResponseDto saveUser(UserSaveDto user);
 

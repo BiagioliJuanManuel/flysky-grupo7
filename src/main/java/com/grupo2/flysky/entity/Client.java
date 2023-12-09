@@ -1,12 +1,10 @@
 package com.grupo2.flysky.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 public class Client {
@@ -27,5 +25,6 @@ public class Client {
     private String phoneNumber;
 
     @OneToOne
+    @JoinColumn(name = "ticketId")
     private Ticket ticket;
 }
