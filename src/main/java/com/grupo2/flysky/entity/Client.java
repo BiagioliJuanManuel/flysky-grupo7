@@ -15,6 +15,9 @@ public class Client {
     @Column(nullable = false)
     private String name;
 
+    @Column(unique = true)
+    private Long documentNumber;
+
     @Column(nullable = false)
     private String email;
 

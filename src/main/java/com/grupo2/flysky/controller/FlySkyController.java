@@ -1,6 +1,7 @@
 package com.grupo2.flysky.controller;
 
 import com.grupo2.flysky.dto.requestDto.BodyDto;
+import com.grupo2.flysky.dto.requestDto.TicketDto;
 import com.grupo2.flysky.service.IFlySkyService;
 import com.grupo2.flysky.service.FlyskyService;
 
@@ -34,8 +35,8 @@ public class FlySkyController {
 
     //endpoint para hacer una reservación
     @PostMapping("/reservation")
-    public ResponseEntity<?> buyTicket(@RequestBody BodyDto body){
-        return null;
+    public ResponseEntity<?> buyTicket(@RequestBody TicketDto ticket){
+        return new ResponseEntity<>(service.buyTicket(ticket), HttpStatus.OK);
     }
 
     //endpoint para realizar pago
