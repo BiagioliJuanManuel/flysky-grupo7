@@ -19,14 +19,13 @@ public class ExceptionController {
     public ResponseEntity<?> validationFail(MethodArgumentNotValidException e){
         Map<String, String> errors = new HashMap<>();
 
-        e.getBindingResult().getAllErrors().stream()
-                .map(er -> {
-                    String message = ((FieldError)er).getField();
-                    String cause = er.getDefaultMessage();
-                    errors.put(message, cause);
-                    return null;
-                })
-                .collect(Collectors.toList());
+        e.getBindingResult()
+            .getAllErrors()
+            .forEach(er -> {
+                String message = ( (FieldError) er).getField();
+                String cause = er.getDefaultMessage();
+                errors.put(message, cause);
+            });
 
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
@@ -34,6 +33,7 @@ public class ExceptionController {
     @ExceptionHandler(DataBaseIsEmptyException.class)
     public ResponseEntity<?> dataBaseIsEmpty(DataBaseIsEmptyException e){
         FlightExceptionDto flightExceptionDto = new FlightExceptionDto(404, e.getMessage());
+
         return new ResponseEntity<>(flightExceptionDto, HttpStatus.NOT_FOUND);
     }
 

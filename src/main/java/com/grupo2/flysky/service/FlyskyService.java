@@ -8,8 +8,9 @@ import com.grupo2.flysky.entity.Flight;
 import com.grupo2.flysky.exception.DataBaseIsEmptyException;
 import com.grupo2.flysky.repository.IClientRepository;
 import com.grupo2.flysky.repository.IFlightRepository;
+
 import org.modelmapper.ModelMapper;
-import org.modelmapper.internal.bytebuddy.implementation.bytecode.Throw;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
