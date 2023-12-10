@@ -1,5 +1,6 @@
 package com.grupo2.flysky.service;
 
+import com.grupo2.flysky.dto.responseDto.ClientDto;
 import com.grupo2.flysky.dto.responseDto.FlightDto;
 import com.grupo2.flysky.dto.responseDto.ResponseDto;
 
@@ -18,5 +19,5 @@ public interface IFlySkyService {
 
     ResponseDto payment(Long idTicket); // Pagar la Compra o Reserva del Boleto
 
-    ResponseDto findClient(Long idClient); // Buscar un cliente, para ver sus Datos e Historial
+    ClientDto findClient(Long idClient); // Buscar un cliente, para ver sus Datos e Historial
 }

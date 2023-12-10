@@ -18,7 +18,8 @@ public class FlySkyController {
      *
      */
 
-    private IFlySkyService service;
+    private final IFlySkyService service;
+
     public FlySkyController(FlyskyService service){
         this.service = service;
     }
@@ -44,11 +45,11 @@ public class FlySkyController {
     //acceder a la información de un cliente (historial de reservas, preferencias de viaje y detalles de contacto)
     @GetMapping("/clients/{id}") // o "/customers/{id}"
     public ResponseEntity<?> findClient(@PathVariable Long id){
-        return null;
+        return new ResponseEntity<>(service.findClient(id), HttpStatus.OK);
     }
 
     //obtener número de ventas realizadas y los ingresos generados (para informes diarios)
-    @GetMapping("/repots")
+    @GetMapping("/reports")
     public ResponseEntity<?> getReports(){
         return null;
     }
