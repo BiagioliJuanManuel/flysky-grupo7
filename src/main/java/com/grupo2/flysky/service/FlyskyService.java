@@ -1,5 +1,6 @@
 package com.grupo2.flysky.service;
 
+import com.grupo2.flysky.dto.requestDto.TicketDto;
 import com.grupo2.flysky.dto.responseDto.ClientDto;
 import com.grupo2.flysky.dto.responseDto.FlightDto;
 import com.grupo2.flysky.dto.responseDto.ResponseDto;
@@ -8,8 +9,10 @@ import com.grupo2.flysky.entity.Flight;
 import com.grupo2.flysky.exception.DataBaseIsEmptyException;
 import com.grupo2.flysky.repository.IClientRepository;
 import com.grupo2.flysky.repository.IFlightRepository;
+
+import com.grupo2.flysky.repository.ITicketRepository;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.internal.bytebuddy.implementation.bytecode.Throw;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,12 +24,14 @@ public class FlyskyService implements IFlySkyService {
 
     private final IFlightRepository flightRepository;
     private final IClientRepository clientRepository;
+    private final ITicketRepository ticketRepository;
     private final ModelMapper mapper;
 
-    public FlyskyService(IFlightRepository flightRepository, IClientRepository clientRepository) {
+    public FlyskyService(IFlightRepository flightRepository, IClientRepository clientRepository, ITicketRepository ticketRepository) {
         this.mapper = new ModelMapper();
         this.flightRepository = flightRepository;
         this.clientRepository = clientRepository;
+        this.ticketRepository = ticketRepository;
     }
 
     @Override
@@ -43,7 +48,7 @@ public class FlyskyService implements IFlySkyService {
     }
 
     @Override
-    public ResponseDto buyTicket(Long idFlight) {
+    public ResponseDto buyTicket(TicketDto ticket){
         return null;
     }
 
