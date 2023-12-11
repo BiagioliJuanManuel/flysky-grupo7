@@ -26,7 +26,7 @@ public class FlySkyController {
 
     //endpoint para ver lista de vuelos
     @GetMapping("/flights")
-    public ResponseEntity<?> flights(){
+    public ResponseEntity<?> getAllFlights(){
         return new ResponseEntity<>(service.findAllFlights() ,HttpStatus.OK);
     }
 
