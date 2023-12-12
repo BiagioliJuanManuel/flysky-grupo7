@@ -11,11 +11,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FlightDto {
+    private Long idFlight;
+
     private LocalDateTime flightDate;
 
     private String airline;
 
-    private Integer totalSeats;
+    private Double reservePrice;
 
     private Integer availableSeats;
 

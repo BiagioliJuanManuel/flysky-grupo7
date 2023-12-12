@@ -4,17 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClientDto {
-    private String name;
+public class FlightDto {
+    private Long idFlight;
 
-    private Long documentNumber;
+    private String airline;
 
-    private String email;
+    private String origin;
 
-    private Integer age;
-
-    private String phoneNumber;
+    private String destination;
 }

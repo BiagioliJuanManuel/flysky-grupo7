@@ -1,11 +1,12 @@
 package com.grupo2.flysky.service;
 
-import com.grupo2.flysky.dto.requestDto.TicketDto;
+import com.grupo2.flysky.dto.requestDto.ClientRequestDto;
 import com.grupo2.flysky.dto.responseDto.ClientDto;
 import com.grupo2.flysky.dto.responseDto.FlightDto;
 import com.grupo2.flysky.dto.responseDto.ResponseDto;
 import com.grupo2.flysky.entity.Client;
 import com.grupo2.flysky.entity.Flight;
+import com.grupo2.flysky.entity.Ticket;
 import com.grupo2.flysky.exception.DataBaseIsEmptyException;
 import com.grupo2.flysky.repository.IClientRepository;
 import com.grupo2.flysky.repository.IFlightRepository;
@@ -48,8 +49,20 @@ public class FlyskyService implements IFlySkyService {
     }
 
     @Override
-    public ResponseDto buyTicket(TicketDto ticket){
-        return null;
+    public ResponseDto buyTicket(Long id, ClientRequestDto client){
+        Optional<Flight> optionalFlight = flightRepository.findById(id);
+        Client nuevo = mapper.map(client,Client.class);
+        Ticket boleto = new Ticket();
+        if (optionalFlight.isEmpty()){
+            throw new DataBaseIsEmptyException("No hay vuelo con id: "+id);
+        }else {
+            clientRepository.save(nuevo);
+            boleto.setClient(nuevo);
+            boleto.setFlight(optionalFlight.get());
+            ticketRepository.save(boleto);
+        }
+
+        return new ResponseDto("El cliente: "+nuevo.getName()+" reservo un boleto: "+boleto.getIdTicket());
     }
 
     @Override

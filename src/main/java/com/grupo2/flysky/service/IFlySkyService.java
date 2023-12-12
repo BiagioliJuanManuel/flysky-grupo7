@@ -1,5 +1,7 @@
 package com.grupo2.flysky.service;
 
+import com.grupo2.flysky.dto.requestDto.ClientRequestDto;
+import com.grupo2.flysky.dto.requestDto.ReservationDto;
 import com.grupo2.flysky.dto.requestDto.TicketDto;
 import com.grupo2.flysky.dto.responseDto.ClientDto;
 import com.grupo2.flysky.dto.responseDto.FlightDto;
@@ -16,7 +18,7 @@ public interface IFlySkyService {
 
     List<FlightDto> findAllFlights(); // Buscar vuelos
 
-    ResponseDto buyTicket(TicketDto ticketDto); // Comprar o Reservar un Boleto con el numero de Vuelo
+    ResponseDto buyTicket(Long id, ClientRequestDto client); // Comprar o Reservar un Boleto con el numero de Vuelo
 
     ResponseDto payment(Long idTicket); // Pagar la Compra o Reserva del Boleto
 
