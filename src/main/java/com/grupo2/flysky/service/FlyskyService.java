@@ -4,6 +4,7 @@ import com.grupo2.flysky.dto.requestDto.ClientRequestDto;
 import com.grupo2.flysky.dto.responseDto.ClientDto;
 import com.grupo2.flysky.dto.responseDto.FlightDto;
 import com.grupo2.flysky.dto.responseDto.ResponseDto;
+import com.grupo2.flysky.dto.responseDto.TicketDto;
 import com.grupo2.flysky.entity.Client;
 import com.grupo2.flysky.entity.Flight;
 import com.grupo2.flysky.entity.Ticket;
@@ -71,13 +72,18 @@ public class FlyskyService implements IFlySkyService {
     }
 
     @Override
-    public ClientDto findClient(Long idClient) {
+    public List<TicketDto> findClient(Long idClient) {
         Optional<Client> optionalClient = clientRepository.findById(idClient);
 
         if (optionalClient.isEmpty()){
             throw new DataBaseIsEmptyException("No se encontró el cliente solicitado.");
         }
 
-        return mapper.map(optionalClient.get(), ClientDto.class);
+        Client client = optionalClient.get();
+
+        List<TicketDto> listTickets = client.getTicket().stream()
+                .map(ticket -> mapper.map(ticket, TicketDto.class))
+                .collect(Collectors.toList());
+               return listTickets;
     }
 }

@@ -11,14 +11,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TicketDto {
-    private Flight flight;
+    private FlightDto flight;
 
-    private Client client;
+    private ClientDto client;
 
     private Double sellingPrice;
     private Double reservePrice;
 
-    private PaymentMethod paymentMethod;
+    private PaymentMethodDto paymentMethod;
 
     private boolean reservation;
 }

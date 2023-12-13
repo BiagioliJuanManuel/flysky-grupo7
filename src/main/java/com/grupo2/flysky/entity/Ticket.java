@@ -20,7 +20,7 @@ public class Ticket {
     @Column(nullable = false)
     private boolean reservation;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "idClient")
     private Client client;
 
