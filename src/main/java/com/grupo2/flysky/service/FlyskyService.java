@@ -53,15 +53,24 @@ public class FlyskyService implements IFlySkyService {
     public ResponseDto buyTicket(Long id, ClientRequestDto client){
         Optional<Flight> optionalFlight = flightRepository.findById(id);
         Client nuevo = mapper.map(client,Client.class);
+        Client frecuente = new Client();
         Ticket boleto = new Ticket();
+
+        Optional<Client> clienteExiste = clientRepository.findAll().stream().filter(client1 -> client1.getDocumentNumber().equals(nuevo.getDocumentNumber())).findFirst();
+
+//        if (clientRepository.findAll().stream().anyMatch(c -> c.getDocumentNumber().equals(nuevo.getDocumentNumber()))){
         if (optionalFlight.isEmpty()){
             throw new DataBaseIsEmptyException("No hay vuelo con id: "+id);
+        }
+        if (clienteExiste.isPresent()){
+            frecuente = clienteExiste.get();
+            boleto.setClient(frecuente);
         }else {
             clientRepository.save(nuevo);
             boleto.setClient(nuevo);
-            boleto.setFlight(optionalFlight.get());
-            ticketRepository.save(boleto);
         }
+        boleto.setFlight(optionalFlight.get());
+        ticketRepository.save(boleto);
 
         return new ResponseDto("El cliente: "+nuevo.getName()+" reservo un boleto: "+boleto.getIdTicket());
     }

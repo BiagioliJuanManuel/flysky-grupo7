@@ -17,7 +17,7 @@ public class Client {
     @Column(nullable = false)
     private String name;
 
-    @Column(unique = true)
+    @Column(nullable = false)
     private Long documentNumber;
 
     @Column(nullable = false)
@@ -29,6 +29,7 @@ public class Client {
     @Column(nullable = false)
     private String phoneNumber;
 
-    @OneToMany(mappedBy = "client" ,cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+
     private List<Ticket> ticket;
 }
