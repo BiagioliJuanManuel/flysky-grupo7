@@ -3,6 +3,8 @@ package com.grupo2.flysky.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,7 +17,7 @@ public class Client {
     @Column(nullable = false)
     private String name;
 
-    @Column(unique = true)
+    @Column(nullable = false)
     private Long documentNumber;
 
     @Column(nullable = false)
@@ -27,7 +29,6 @@ public class Client {
     @Column(nullable = false)
     private String phoneNumber;
 
-    @OneToOne
-    @JoinColumn(name = "ticketId")
-    private Ticket ticket;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "client")
+    private List<Ticket> ticket;
 }

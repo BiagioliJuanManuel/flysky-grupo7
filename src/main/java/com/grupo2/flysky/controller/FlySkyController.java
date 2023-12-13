@@ -7,6 +7,7 @@ import com.grupo2.flysky.dto.requestDto.TicketDto;
 import com.grupo2.flysky.service.IFlySkyService;
 import com.grupo2.flysky.service.FlyskyService;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
@@ -37,7 +38,7 @@ public class FlySkyController {
 
     //endpoint para hacer una reservación
     @PostMapping("/reservation")
-    public ResponseEntity<?> buyTicket(@RequestParam Long idFlight, @RequestBody ClientRequestDto clientRequestDto){
+    public ResponseEntity<?> buyTicket(@RequestParam Long idFlight, @RequestBody @Valid ClientRequestDto clientRequestDto){
         return new ResponseEntity<>(service.buyTicket(idFlight,clientRequestDto), HttpStatus.OK);
     }
 
