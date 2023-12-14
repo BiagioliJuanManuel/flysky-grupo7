@@ -22,6 +22,9 @@ public class Flight {
     private String airline;
 
     @Column(nullable = false)
+    private Double price;
+
+    @Column(nullable = false)
     private Integer totalSeats;
 
     @Column(nullable = false)

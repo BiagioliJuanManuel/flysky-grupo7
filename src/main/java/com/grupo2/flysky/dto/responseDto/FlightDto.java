@@ -17,7 +17,7 @@ public class FlightDto {
 
     private String airline;
 
-    private Double reservePrice;
+    private Double price;
 
     private Integer availableSeats;
 

@@ -1,8 +1,5 @@
 package com.grupo2.flysky.dto.responseDto;
 
-import com.grupo2.flysky.entity.Client;
-import com.grupo2.flysky.entity.Flight;
-import com.grupo2.flysky.entity.PaymentMethod;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,10 +12,7 @@ public class TicketDto {
 
     private ClientDto client;
 
-    private Double sellingPrice;
-    private Double reservePrice;
-
-    private PaymentMethodDto paymentMethod;
+    private Double finalPrice;
 
     private boolean reservation;
 }

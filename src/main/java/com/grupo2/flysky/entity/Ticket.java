@@ -13,9 +13,9 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idTicket;
 
-    private Double sellingPrice;
-    private Double reservePrice;
+    private Double finalPrice;
 
+    private String paymentMethod;
 
     @Column(nullable = false)
     private boolean reservation;
@@ -24,9 +24,6 @@ public class Ticket {
     @JoinColumn(name = "idClient")
     private Client client;
 
-    @OneToOne
-    @JoinColumn(name = "idPaymentMethod")
-    private PaymentMethod paymentMethod;
 
     @ManyToOne
     @JoinColumn(name = "idFlight")
