@@ -44,8 +44,8 @@ public class FlySkyController {
 
     //endpoint para realizar pago
     @PostMapping("/payments")
-    public ResponseEntity<?> payment(@RequestBody BodyDto body){
-        return null;
+    public ResponseEntity<?> payment(@RequestParam Long idTicket, @RequestParam String paymentMethod){
+        return new ResponseEntity<>(service.payment(idTicket,paymentMethod), HttpStatus.OK);
     }
 
     //acceder a la información de un cliente (historial de reservas, preferencias de viaje y detalles de contacto)

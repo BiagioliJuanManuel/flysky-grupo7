@@ -1,10 +1,7 @@
 package com.grupo2.flysky.service;
 
 import com.grupo2.flysky.dto.requestDto.ClientRequestDto;
-import com.grupo2.flysky.dto.responseDto.ClientDto;
-import com.grupo2.flysky.dto.responseDto.FlightDto;
-import com.grupo2.flysky.dto.responseDto.ResponseDto;
-import com.grupo2.flysky.dto.responseDto.TicketDto;
+import com.grupo2.flysky.dto.responseDto.*;
 import com.grupo2.flysky.entity.Client;
 import com.grupo2.flysky.entity.Flight;
 import com.grupo2.flysky.entity.Ticket;
@@ -17,6 +14,8 @@ import org.modelmapper.ModelMapper;
 
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -50,7 +49,7 @@ public class FlyskyService implements IFlySkyService {
     }
 
     @Override
-    public ResponseDto buyTicket(Long id, ClientRequestDto client){
+    public TicketReservedDto buyTicket(Long id, ClientRequestDto client){
         Optional<Flight> optionalFlight = flightRepository.findById(id);
         Client nuevo = mapper.map(client,Client.class);
         Client frecuente = new Client();
@@ -72,12 +71,34 @@ public class FlyskyService implements IFlySkyService {
         boleto.setFlight(optionalFlight.get());
         ticketRepository.save(boleto);
 
-        return new ResponseDto("El cliente: "+nuevo.getName()+" reservo un boleto: "+boleto.getIdTicket());
+        return new TicketReservedDto(
+                boleto.getIdTicket(),
+                boleto.getClient().getName(),
+                boleto.getClient().getDocumentNumber(),
+                boleto.getFlight().getPrice(),
+                boleto.getFlight().getOrigin(),
+                boleto.getFlight().getDestination()
+
+        );
     }
 
     @Override
-    public ResponseDto payment(Long idTicket) {
-        return null;
+    public ResponseDto payment(Long idTicket, String paymentMethod) {
+        Optional<Ticket> optionalTicket = ticketRepository.findById(idTicket);
+        Ticket ticket;
+        LocalDateTime fechaActual = LocalDateTime.now();
+        if (optionalTicket.isPresent()){
+            ticket = optionalTicket.get();
+            ticket.setPaymentMethod(paymentMethod);
+            if (ticket.getFlight().getFlightDate().isAfter(fechaActual.plusDays(7))){
+                ticket.setReservation(true);
+            }
+            ticket.setFinalPrice(calcularPrecioConDescuento(ticket.getFlight().getFlightDate(),ticket.getFlight().getPrice()));
+            ticketRepository.save(ticket);
+        }else {
+            throw new DataBaseIsEmptyException("No existe ticket con id:"+ idTicket);
+        }
+        return new ResponseDto("El ticket "+ticket.getIdTicket() + " fue pagado con éxito a: "+ticket.getFinalPrice());
     }
 
     @Override
@@ -94,5 +115,31 @@ public class FlyskyService implements IFlySkyService {
                 .map(ticket -> mapper.map(ticket, TicketDto.class))
                 .collect(Collectors.toList());
                return listTickets;
+    }
+
+    public Double calcularPrecioConDescuento(LocalDateTime fechaParametro, Double precio) {
+        // Obtener la fecha actual
+        LocalDateTime fechaActual = LocalDateTime.now();
+
+        // Calcular la diferencia en días
+        long diasDiferencia = Math.abs(ChronoUnit.DAYS.between(fechaParametro, fechaActual));
+//        System.out.println(diasDiferencia);
+
+        // Calcular el descuento según la cantidad de días de diferencia
+        double descuento = 0.0;
+        if (diasDiferencia >= 120) {
+            descuento = 0.4;
+        } else if (diasDiferencia >= 90) {
+            descuento = 0.3;
+        } else if (diasDiferencia >= 60) {
+            descuento = 0.2;
+        } else if (diasDiferencia >= 30) {
+            descuento = 0.1;
+        }
+
+        // Calcular el precio con descuento
+        double precioOriginal = precio; // Puedes ajustar el precio original según tus necesidades
+
+        return precioOriginal - (precioOriginal * descuento);
     }
 }
