@@ -1,8 +1,13 @@
 package com.grupo2.flysky.utils;
 
+import com.grupo2.flysky.dto.requestDto.ClientRequestDto;
 import com.grupo2.flysky.dto.responseDto.FlightDto;
+import com.grupo2.flysky.dto.responseDto.TicketReservedDto;
+import com.grupo2.flysky.entity.Client;
 import com.grupo2.flysky.entity.Flight;
+import com.grupo2.flysky.entity.Ticket;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +71,42 @@ public class FactoryObjects {
         flightList.add(Flight2);
 
         return flightList;
+    }
+
+    public static Client unCliente(){
+        return new Client(1L,"Juan",12345678L,"adfasd@adfa.com",22,"123456789",new ArrayList<Ticket>());
+    }
+
+    public static Flight unVuelo(){
+        return new Flight(1L,
+                LocalDateTime.now().withSecond(0).withNano(0),
+                "Airline1",
+                80000D,
+                60,
+                30,
+                "Ciudad1",
+                "Ciudad2",
+                new ArrayList<Ticket>()
+        );
+    }
+
+    public static Ticket unTicket(){
+        return new Ticket(1L,40000D,"Tarjeta", LocalDate.now(),false, new Client(), new Flight());
+    }
+
+    public static ClientRequestDto unClienteRequestDto(){
+        return new ClientRequestDto("Juan",12345678L,"adfasd@adfa.com",22,"123456789");
+    }
+
+    public static TicketReservedDto unTicketReservedDto(){
+        return new TicketReservedDto(
+                1L,                  // Id del ticket
+                "Juan",     // Nombre del cliente
+                12345678L,          // Número de documento del cliente
+                40000D,               // Precio final del boleto
+                "Ciudad1",      // Ciudad de origen del vuelo
+                "Ciudad2"      // Ciudad de destino del vuelo
+        );
     }
 
 }
