@@ -152,6 +152,10 @@ public class FlyskyService implements IFlySkyService {
         //obtener lista filtrada por fecha de tickets
         List<Ticket> listTickets = ticketRepository.findByPaymentDate(date);
 
+        if (listTickets.size() == 0){
+            throw new DataBaseIsEmptyException("No se encontraron registros de esa fecha");
+        }
+
         //obtener número de ventas totales
         int paidTickets =(int) listTickets.stream()
                     .filter(t -> {
