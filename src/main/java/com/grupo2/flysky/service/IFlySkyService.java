@@ -4,6 +4,7 @@ import com.grupo2.flysky.dto.requestDto.ClientRequestDto;
 import com.grupo2.flysky.dto.requestDto.ReservationDto;
 import com.grupo2.flysky.dto.responseDto.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -23,4 +24,6 @@ public interface IFlySkyService {
     List<TicketDto> findClient(Long idClient); // Buscar un cliente, para ver sus Datos e Historial
 
     Double calcularPrecioConDescuento(LocalDateTime fecha,Double precio);
+
+    DailyReportDto findDailyReport(LocalDate date);
 }

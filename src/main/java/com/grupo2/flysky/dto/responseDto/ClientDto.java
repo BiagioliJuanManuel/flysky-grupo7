@@ -17,5 +17,4 @@ public class ClientDto {
 
     private String phoneNumber;
 
-    private TicketDto ticket;
 }

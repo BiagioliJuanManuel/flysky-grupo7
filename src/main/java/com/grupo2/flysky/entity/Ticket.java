@@ -4,6 +4,8 @@ package com.grupo2.flysky.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,6 +19,7 @@ public class Ticket {
 
     private String paymentMethod;
 
+    private LocalDate paymentDate;
     @Column(nullable = false)
     private boolean reservation;
 
@@ -24,10 +27,8 @@ public class Ticket {
     @JoinColumn(name = "idClient")
     private Client client;
 
-
     @ManyToOne
     @JoinColumn(name = "idFlight")
     private Flight flight;
-
 
 }

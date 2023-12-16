@@ -11,12 +11,18 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Size;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/v1/api")
+@Validated
 public class FlySkyController {
     /*
      *  Controlador para dividirnos tareas
@@ -59,9 +65,13 @@ public class FlySkyController {
     }
 
     //obtener número de ventas realizadas y los ingresos generados (para informes diarios)
-    @GetMapping("/reports")
-    public ResponseEntity<?> getReports(){
-        return null;
+    @GetMapping("/reports/{dailyDate}")
+    public ResponseEntity<?> getReport(
+            @PathVariable("dailyDate")
+            @NotNull(message = "Por favor ingrese la fecha correspondiente al dia del cual quiere obtener los reportes")
+            @PastOrPresent(message = "No existen reportes en base a fechas futuras")
+            LocalDate date){
+        return new ResponseEntity<>(service.findDailyReport(date), HttpStatus.OK);
     }
 
 

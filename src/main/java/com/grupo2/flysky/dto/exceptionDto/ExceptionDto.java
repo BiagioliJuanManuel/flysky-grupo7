@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class FlightExceptionDto {
+public class ExceptionDto {
     private int status;
     private String error;
 

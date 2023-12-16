@@ -1,6 +1,6 @@
 package com.grupo2.flysky.exception;
 
-import com.grupo2.flysky.dto.exceptionDto.FlightExceptionDto;
+import com.grupo2.flysky.dto.exceptionDto.ExceptionDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -32,10 +32,11 @@ public class ExceptionController {
 
     @ExceptionHandler(DataBaseIsEmptyException.class)
     public ResponseEntity<?> dataBaseIsEmpty(DataBaseIsEmptyException e){
-        FlightExceptionDto flightExceptionDto = new FlightExceptionDto(404, e.getMessage());
+        ExceptionDto flightExceptionDto = new ExceptionDto(404, e.getMessage());
 
         return new ResponseEntity<>(flightExceptionDto, HttpStatus.NOT_FOUND);
     }
+
 
 }
 

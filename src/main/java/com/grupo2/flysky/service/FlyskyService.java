@@ -14,10 +14,10 @@ import org.modelmapper.ModelMapper;
 
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -90,6 +90,7 @@ public class FlyskyService implements IFlySkyService {
         if (optionalTicket.isPresent()){
             ticket = optionalTicket.get();
             ticket.setPaymentMethod(paymentMethod);
+            ticket.setPaymentDate(fechaActual.toLocalDate());
             if (ticket.getFlight().getFlightDate().isAfter(fechaActual.plusDays(7))){
                 ticket.setReservation(true);
             }
@@ -141,5 +142,57 @@ public class FlyskyService implements IFlySkyService {
         double precioOriginal = precio; // Puedes ajustar el precio original según tus necesidades
 
         return precioOriginal - (precioOriginal * descuento);
+    }
+
+    @Override
+    public DailyReportDto findDailyReport(LocalDate date) {
+
+        //obtener: numero de ventas, ingresos generados, destinos populares, tendencias de reserva.
+
+        //obtener lista filtrada por fecha de tickets
+        List<Ticket> listTickets = ticketRepository.findByPaymentDate(date);
+
+        //obtener número de ventas totales
+        int paidTickets =(int) listTickets.stream()
+                    .filter(t -> {
+                        String paymentMethod = t.getPaymentMethod();
+                        return paymentMethod != null && !paymentMethod.isEmpty();
+                    })
+                    .count();
+
+        //obtener y sumar los ingresos generados totales
+        long dailyIncome =(long) listTickets.stream()
+                    .filter(ticket -> Objects.nonNull(ticket.getFinalPrice()))
+                    .mapToDouble(Ticket::getFinalPrice)
+                    .sum();
+
+        //obtener destinos populares
+        Map<String, Long> destinationCount = listTickets.stream()
+                .collect(Collectors.groupingBy(t -> t.getFlight().getDestination(), Collectors.counting()));
+
+        //filtrar de forma descendente los destinos sean reservados o no
+        List<String> listPopularDestination = destinationCount.entrySet().stream()
+                .sorted((entry1, entry2)-> Long.compare(entry2.getValue(), entry1.getValue()))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+
+        //obtener destinos reservados
+        Map<String, Long> reservedDestinationCount = listTickets.stream()
+                .filter(t-> t.isReservation())
+                .collect(Collectors.groupingBy(t -> t.getFlight().getDestination(), Collectors.counting()));
+
+        //filtrar de forma descendente las reservas
+        List<String> listPopularReserve = reservedDestinationCount.entrySet().stream()
+                .sorted((entry1, entry2)-> Long.compare(entry2.getValue(), entry1.getValue()))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+
+        DailyReportDto dailyReportDto = new DailyReportDto();
+            dailyReportDto.setDailySalesNumber(paidTickets);
+            dailyReportDto.setDailyIncome(dailyIncome);
+            dailyReportDto.setPopularDestinations(listPopularDestination);
+            dailyReportDto.setBookingTrends(listPopularReserve);
+            return dailyReportDto;
+
     }
 }
