@@ -2,9 +2,7 @@ package com.grupo2.flysky.controllerTest;
 
 import com.grupo2.flysky.controller.FlySkyController;
 import com.grupo2.flysky.dto.requestDto.ClientRequestDto;
-import com.grupo2.flysky.dto.responseDto.FlightDto;
-import com.grupo2.flysky.dto.responseDto.ResponseDto;
-import com.grupo2.flysky.dto.responseDto.TicketReservedDto;
+import com.grupo2.flysky.dto.responseDto.*;
 import com.grupo2.flysky.service.FlyskyService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -75,6 +73,38 @@ public class ControllerTestsConMock {
 
         //ACT
         ResponseEntity<?> respuestaActual = flyskyController.payment(anyLong(),anyString());
+
+        //ASSERT
+        assertEquals(respuestaEsperada,respuestaActual);
+    }
+
+    @Test
+    @DisplayName("Endpoint GET/clients/{id}")
+    void findClientHistorialOk() {
+        //ARRANGE
+        List<TicketDto> bodyEsperado = unaListaDeTicketDto();
+        ResponseEntity<?> respuestaEsperada = new ResponseEntity<>(bodyEsperado, HttpStatus.OK);
+
+        when(flyskyService.findClient(anyLong())).thenReturn(bodyEsperado);
+
+        //ACT
+        ResponseEntity<?> respuestaActual = flyskyController.findClient(anyLong());
+
+        //ASSERT
+        assertEquals(respuestaEsperada,respuestaActual);
+    }
+
+    @Test
+    @DisplayName("Endpoint GET/reports/{dailyDate}")
+    void getReportsOk() {
+        //ARRANGE
+        DailyReportDto bodyEsperado = new DailyReportDto();
+        ResponseEntity<?> respuestaEsperada = new ResponseEntity<>(bodyEsperado, HttpStatus.OK);
+
+        when(flyskyService.findDailyReport(any())).thenReturn(bodyEsperado);
+
+        //ACT
+        ResponseEntity<?> respuestaActual = flyskyController.getReport(any());
 
         //ASSERT
         assertEquals(respuestaEsperada,respuestaActual);

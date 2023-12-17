@@ -2,6 +2,7 @@ package com.grupo2.flysky.utils;
 
 import com.grupo2.flysky.dto.requestDto.ClientRequestDto;
 import com.grupo2.flysky.dto.responseDto.FlightDto;
+import com.grupo2.flysky.dto.responseDto.TicketDto;
 import com.grupo2.flysky.dto.responseDto.TicketReservedDto;
 import com.grupo2.flysky.entity.Client;
 import com.grupo2.flysky.entity.Flight;
@@ -107,6 +108,16 @@ public class FactoryObjects {
                 "Ciudad1",      // Ciudad de origen del vuelo
                 "Ciudad2"      // Ciudad de destino del vuelo
         );
+    }
+
+    public static List<TicketDto> unaListaDeTicketDto(){
+        TicketDto ticketDto1 = new TicketDto();
+        TicketDto ticketDto2 = new TicketDto();
+        List<TicketDto> dtoList = new ArrayList<>();
+        dtoList.add(ticketDto1);
+        dtoList.add(ticketDto2);
+
+        return dtoList;
     }
 
 }
