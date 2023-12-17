@@ -97,9 +97,9 @@ public class FlyskyService implements IFlySkyService {
             ticket.setFinalPrice(calcularPrecioConDescuento(ticket.getFlight().getFlightDate(),ticket.getFlight().getPrice()));
             ticketRepository.save(ticket);
         }else {
-            throw new DataBaseIsEmptyException("No existe ticket con id:"+ idTicket);
+            throw new DataBaseIsEmptyException("No existe ticket con id: "+ idTicket);
         }
-        return new ResponseDto("El ticket "+ticket.getIdTicket() + " fue pagado con éxito a: "+ticket.getFinalPrice());
+        return new ResponseDto("El ticket "+ticket.getIdTicket() + " fue pagado con éxito");
     }
 
     @Override

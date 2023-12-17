@@ -1,9 +1,6 @@
 package com.grupo2.flysky.controller;
 
-import com.grupo2.flysky.dto.requestDto.BodyDto;
 import com.grupo2.flysky.dto.requestDto.ClientRequestDto;
-import com.grupo2.flysky.dto.requestDto.ReservationDto;
-import com.grupo2.flysky.dto.requestDto.TicketDto;
 import com.grupo2.flysky.service.IFlySkyService;
 import com.grupo2.flysky.service.FlyskyService;
 
@@ -12,7 +9,6 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
 import jakarta.validation.constraints.PastOrPresent;
-import jakarta.validation.constraints.Size;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
