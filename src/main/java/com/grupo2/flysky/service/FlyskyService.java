@@ -107,7 +107,7 @@ public class FlyskyService implements IFlySkyService {
         Optional<Client> optionalClient = clientRepository.findById(idClient);
 
         if (optionalClient.isEmpty()){
-            throw new DataBaseIsEmptyException("No se encontró el cliente solicitado.");
+            throw new DataBaseIsEmptyException("No se encontro el cliente solicitado.");
         }
 
         Client client = optionalClient.get();
