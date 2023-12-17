@@ -20,6 +20,11 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+
 import static com.grupo2.flysky.utils.FactoryObjects.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -154,6 +159,62 @@ public class IntegrationTest1 {
                 .andExpect(jsonPath("error").value("No hay vuelo con id: 9999"))
                 .andReturn();
 
+    }
+
+    @Test
+    @DisplayName("Test historial de cliente")
+    @Order(6)
+    void findClientTicketsTestOk() throws Exception {
+        //ARRENGE
+        Client client = unCliente();
+        Flight flight = unVuelo();
+        Flight flight2 = otroVuelo();
+        Ticket ticket = unTicket();
+        Ticket ticket2 = otroTicket();
+        clientRepository.save(client);
+        flightRepository.save(flight);
+        flightRepository.save(flight2);
+
+        ticket.setClient(client);
+        ticket2.setClient(client);
+        ticket.setFlight(flight);
+        ticket2.setFlight(flight2);
+        ticketRepository.save(ticket);
+        ticketRepository.save(ticket2);
+
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+
+        String respuestaEsperadaJSON = "[{\"flight\":{\"idFlight\":1," +
+                "\"flightDate\":\""+ LocalDateTime.now().withSecond(0).format(formatter) +"\"," +
+                "\"airline\":\"Airline1\"," +
+                "\"price\":80000.0," +
+                "\"availableSeats\":30," +
+                "\"origin\":\"Ciudad1\"," +
+                "\"destination\":\"Ciudad2\"}," +
+                "\"client\":{\"name\":\"Juan\",\"email\":\"adfasd@adfa.com\",\"age\":22,\"phoneNumber\":\"123456789\"}," +
+                "\"finalPrice\":40000.0," +
+                "\"reservation\":false," +
+                "\"paymentDate\":\""+ LocalDate.now() +"\"}," +
+                "{\"flight\":{\"idFlight\":2," +
+                "\"flightDate\":\""+ LocalDateTime.now().withSecond(0).format(formatter) +"\"," +
+                "\"airline\":\"Airline2\"," +
+                "\"price\":100000.0," +
+                "\"availableSeats\":20," +
+                "\"origin\":\"Ciudad3\"," +
+                "\"destination\":\"Ciudad4\"}," +
+                "\"client\":{\"name\":\"Juan\",\"email\":\"adfasd@adfa.com\",\"age\":22,\"phoneNumber\":\"123456789\"}," +
+                "\"finalPrice\":40000.0," +
+                "\"reservation\":false," +
+                "\"paymentDate\":\""+ LocalDate.now() +"\"}]";
+
+        MvcResult actual = mockMvc.perform(get("/v1/api/clients/{id}","1"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andReturn();
+
+        assertEquals(respuestaEsperadaJSON,actual.getResponse().getContentAsString());
     }
 
 }

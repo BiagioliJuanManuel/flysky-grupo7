@@ -95,6 +95,23 @@ public class FactoryObjects {
         return new Ticket(1L,40000D,"Tarjeta", LocalDate.now(),false, new Client(), new Flight());
     }
 
+    public static Flight otroVuelo(){
+        return new Flight(2L,
+                LocalDateTime.now().withSecond(0).withNano(0),
+                "Airline2",
+                100000D,
+                30,
+                20,
+                "Ciudad3",
+                "Ciudad4",
+                new ArrayList<Ticket>()
+        );
+    }
+
+    public static Ticket otroTicket(){
+        return new Ticket(2L,40000D,"Tarjeta", LocalDate.now(),false, new Client(), new Flight());
+    }
+
     public static ClientRequestDto unClienteRequestDto(){
         return new ClientRequestDto("Juan",12345678L,"adfasd@adfa.com",22,"1234567890");
     }
